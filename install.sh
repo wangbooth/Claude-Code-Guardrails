@@ -46,14 +46,37 @@ command -v jq >/dev/null 2>&1 || {
 log "Mode: $([ "$GLOBAL" -eq 1 ] && echo Global || echo Project) | Target: $([ "$GLOBAL" -eq 1 ] && echo "$HOME/.claude" || echo "$TARGET")"
 
 # -------- 路径初始化 --------
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SRC_HOOKS_DIR="$SCRIPT_DIR/.claude/hooks"
-if [ ! -d "$SRC_HOOKS_DIR" ]; then
-  echo "ERROR: Source hooks directory not found: $SRC_HOOKS_DIR" >&2
-  echo "       未找到源 hooks 目录：$SRC_HOOKS_DIR" >&2
-  echo "       Please run this script from the repository root directory." >&2
-  echo "       请从仓库根目录执行此脚本。" >&2
-  exit 1
+# 检测是否通过管道执行（远程安装）
+if [ -z "${BASH_SOURCE[0]:-}" ] || [ "${BASH_SOURCE[0]}" = "bash" ]; then
+  # 远程安装模式：下载必要文件到临时目录
+  log "Remote installation mode detected / 检测到远程安装模式"
+  TEMP_DIR="$(mktemp -d)"
+  trap 'rm -rf "$TEMP_DIR"' EXIT
+  
+  BASE_URL="https://raw.githubusercontent.com/wangbooth/claude-code-guardrails/main"
+  SRC_HOOKS_DIR="$TEMP_DIR/.claude/hooks"
+  mkdir -p "$SRC_HOOKS_DIR"
+  
+  log "Downloading hook scripts / 下载 hook 脚本"
+  for script in guard-branch.sh auto-commit.sh squash-checkpoints.sh; do
+    if ! curl -fsSL "$BASE_URL/.claude/hooks/guardrails/$script" -o "$SRC_HOOKS_DIR/$script"; then
+      echo "ERROR: Failed to download $script" >&2
+      echo "       下载 $script 失败" >&2
+      exit 1
+    fi
+    log "Downloaded: $script / 已下载: $script"
+  done
+else
+  # 本地安装模式：使用脚本所在目录
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  SRC_HOOKS_DIR="$SCRIPT_DIR/.claude/hooks"
+  if [ ! -d "$SRC_HOOKS_DIR" ]; then
+    echo "ERROR: Source hooks directory not found: $SRC_HOOKS_DIR" >&2
+    echo "       未找到源 hooks 目录：$SRC_HOOKS_DIR" >&2
+    echo "       Please run this script from the repository root directory." >&2
+    echo "       请从仓库根目录执行此脚本。" >&2
+    exit 1
+  fi
 fi
 
 if [ "$GLOBAL" -eq 1 ]; then
