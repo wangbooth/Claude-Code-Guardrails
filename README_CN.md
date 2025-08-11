@@ -25,6 +25,10 @@
   <strong>🔥 如果这个项目对您有帮助，请点击右上角的 ⭐ Star 支持我们！</strong>
 </p>
 
+<p align="center">
+  <a href="README.md">🇺🇸 English</a> | <a href="README_CN.md">🇨🇳 中文</a>
+</p>
+
 </div>
 
 ---
@@ -54,7 +58,7 @@
 ### 🎉 现在就开始体验！
 
 <p>
-  <a href="#🚀-快速开始">
+  <a href="#-快速开始">
     <img src="https://img.shields.io/badge/🚀-立即安装-brightgreen?style=for-the-badge&logo=rocket" alt="立即安装" />
   </a>
   &nbsp;&nbsp;
@@ -178,7 +182,7 @@
 
 <table>
 <tr>
-<td width="50%" align="center">
+<td width="50%">
 
 ### 🌟 推荐：一键安装
 **智能合并，安全无忧**
@@ -194,7 +198,12 @@ curl -fsSL https://raw.githubusercontent.com/wangbooth/claude-code-guardrails/ma
 ```
 
 </td>
-<td width="50%" align="center">
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%">
 
 ### 📁 方式二：手动拷贝
 **直观透明，完全掌控**
@@ -208,7 +217,7 @@ chmod +x /path/to/your-project/.claude/hooks/guardrails/*.sh
 </tr>
 </table>
 
-<div align="center">
+<div>
 
 ### ✨ 安装脚本特性
 
@@ -419,7 +428,7 @@ A：脚本基于 POSIX shell。Windows 用户建议在 WSL 或类 Unix 环境使
 
 **🔀 代码贡献**
 <br/>
-[提交 Pull Request](https://github.com/wangbooth/claude-code-guardrails/pulls)
+[提交 PR](https://github.com/wangbooth/claude-code-guardrails/pulls)
 
 </td>
 </tr>
