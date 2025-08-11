@@ -1,0 +1,35 @@
+{
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Write|Edit|MultiEdit",
+          "hooks": [
+            { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guardrails/guard-branch.sh", "timeout": 10 }          
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": "Write|Edit|MultiEdit",
+          "hooks": [
+            { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guardrails/auto-commit.sh", "timeout": 30 }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "hooks": [
+            { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guardrails/squash-checkpoints.sh", "timeout": 30 }
+          ]
+        }
+      ],
+      "PreCompact": [
+        {
+          "hooks": [
+            { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guardrails/squash-checkpoints.sh compact", "timeout": 60 }
+          ]
+        }
+      ]
+    }
+  }
+  
