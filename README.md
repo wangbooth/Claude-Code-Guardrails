@@ -45,6 +45,8 @@ Have you ever encountered these frustrating scenarios while Vibe Coding?
 
 ## 💡 Solution: Claude Code Guardrails
 
+**Guardrails based on Claude Code Hook**
+
 > **Triple Security Mechanism**: 🛡️ **Pre-write Interception Alert** + 📸 **Precise Snapshot Commits** + 🔄 **Smart Merge Archiving**
 
 ✅ **Protected branch interception** → Automatically blocks writes to main branch, suggests creating feature branch  
