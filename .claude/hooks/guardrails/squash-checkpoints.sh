@@ -12,16 +12,18 @@ if [[ "$branch" =~ $protected ]]; then
   exit 0
 fi
 
-count="$(git log --oneline --grep '^checkpoint:' | wc -l | tr -d ' ')"
+count="$(git log --oneline --grep '^checkpoint:' 2>/dev/null | wc -l | tr -d ' ' 2>/dev/null || echo '0')"
 [ "$count" -gt 1 ] || exit 0
 
 # 仅在“本地 ahead 或无上游”的情况下改历史，避免已推送后的奇怪冲突
 if git rev-parse --symbolic-full-name --verify -q @{u} >/dev/null 2>&1; then
   # 有上游时，只在 ahead>0 时操作
-  git status -sb | grep -q 'ahead' || exit 0
+  if ! git status -sb 2>/dev/null | grep -q 'ahead' 2>/dev/null; then
+    exit 0
+  fi
 fi
 
-last_changes="$(git log --oneline --grep '^checkpoint:' | head -3 | cut -d' ' -f2- | tr '\n' ', ' | sed 's/, $//')"
+last_changes="$(git log --oneline --grep '^checkpoint:' 2>/dev/null | head -3 | cut -d' ' -f2- | tr '\n' ', ' | sed 's/, $//' 2>/dev/null || echo 'changes')"
 suffix="$( [ "$mode" = "compact" ] && echo "conversation compacted - " || true )"
 git reset --soft "HEAD~${count}"
 git commit -m "task: ${suffix}${last_changes} - $(date +'%Y-%m-%d')"
