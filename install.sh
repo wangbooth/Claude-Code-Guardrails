@@ -38,8 +38,8 @@ done
 command -v jq >/dev/null 2>&1 || { 
   echo "ERROR: jq is required but not installed." >&2
   echo "       需要 jq 但未安装。" >&2
-  echo "       Install with: brew install jq  OR  apt-get install -y jq" >&2
-  echo "       安装命令：brew install jq  或者  apt-get install -y jq" >&2
+  echo "       Install with: brew install jq  OR  apt-get install -y jq  OR  Download from https://jqlang.org/download/" >&2
+  echo "       安装命令：brew install jq  或者  apt-get install -y jq  或者从官网下载安装 https://jqlang.org/download/" >&2
   exit 1
 }
 
